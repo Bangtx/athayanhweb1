@@ -28,65 +28,22 @@
               <a href="#"><button style=" margin-top: 16vh;"><i class="fab fa-buromobelexperte"></i><br>App</button></a>
               <a href="#"><button><i class="far fa-question-circle"></i><br>Help</button></a>
           </div>
-          <div class="list">
-              <div class="topic">
-                  <div><span>Topic:</span></div>
-                  <select>
-                      <option>A</option>
-                      <option>B</option>
-                      <option>C</option>
-                  </select>
-              </div>
-              <div class="type">
-                  <div>Type:</div>
-                  <select>
-                      <option>Multiple-C</option>
-                      <option>a</option>
-                      <option>b</option>
-                  </select>
-              </div>
-              <div class="level">
-                  <div>Level:</div>
-                  <select>
-                      <option>Easy</option>
-                      <option>Medium</option>
-                      <option>Hard</option>
-                  </select>
-              </div>
-              <div class="doc">
-                  <div>Doc:</div>
-                  <select>
-                      <option>Tài liệu 1</option>
-                      <option>Tài liệu 2</option>
-                      <option>Tài liệu 3</option>
-                  </select>
-              </div>
-              <QuestionBank/>
-          </div>
-          <div class="Image">
-              <img id="myImage" src="image/laptop.jpg">
-          </div>
+        <question-bank/>
       </section>
 </body>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from '@vue/composition-api'
+import { defineComponent } from '@vue/composition-api'
+import { ref } from "vue"
 import axios from 'axios'
 import QuestionBank from "@/components/questionBank.vue";
+// import SentResult from "@/components/sendResults.vue";
 export default defineComponent({
   name: 'Base',
-  components: {QuestionBank},
-  setup() {
-    const getdata = () => {
-      axios
-      .get('http://127.0.0.1:8000/data/')
-      .then(response => (console.log(response.data)))
-    }
-    getdata()
-    return {
-      getdata
-    }
+  components: {
+    // /SentResult,
+    QuestionBank
   }
 })
 </script>
