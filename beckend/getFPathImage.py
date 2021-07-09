@@ -1,5 +1,5 @@
 import os, sqlite3
-from builtins import type
+from builtins import type, str
 from typing import re
 
 
@@ -34,13 +34,13 @@ class database:
                 )""",
             """CREATE TABLE IF NOT EXISTS `point` (
                 `id` INTEGER PRIMARY KEY,
-                `id_user` INTEGER NOT NULL,
+                `user` INTEGER NOT NULL,
                 `point` INTEGER NOT NULL
                 )""",
             """CREATE TABLE IF NOT EXISTS `result` (
                 `id` INTEGER PRIMARY KEY,
-                `id_user` INTEGER NOT NULL,
-                `id_question` INTEGER NOT NULL ,
+                `user` INTEGER NOT NULL,
+                `question` INTEGER NOT NULL ,
                 `result` TEXT NOT NULL
                 )""",
             """CREATE TABLE IF NOT EXISTS `subject` (
@@ -108,6 +108,41 @@ class database:
         cursor.execute(sql)
         result = cursor.fetchall()
         return result
+
+    def insert_one_row(self, table_name, **kwargs):
+        cursor = self.db.cursor()
+        sql_ = f"INSERT INTO `{table_name}` "
+        col = '('
+        val = '('
+        i = 1
+        for key, value in kwargs.items():
+            if i < len(kwargs):
+                col += f'`{key}`, '
+                val += f'{value}, '
+            else:
+                col += f'`{key}`)'
+                val += f'{value})'
+            i += 1
+
+        sql = sql_ + col + " VALUES " + val
+        cursor.execute(sql)
+        self.db.commit()
+
+    def update_one_row_by_fields(self, table_name, key, value, **kwargs):
+        cursor = self.db.cursor()
+        update = ''
+        i = 1
+        for k, v in kwargs.items():
+            if i < len(kwargs):
+                update += f'`{k}` = {v},  '
+            else:
+                update += f'`{k}` = {v}'
+            i += 1
+
+        sql = f'UPDATE `{table_name}` SET  {update} WHERE  `{key}` = {value} '
+        print(sql)
+        cursor.execute(sql)
+        self.db.commit()
 
 
 def is_file(fileName):

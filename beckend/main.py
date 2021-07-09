@@ -29,9 +29,10 @@ async def main():
     return get_all_question()
 
 
-@app.get('receive/{result}')
-async def receive():
-    return True
+@app.get('/receive/{id_student}/{result_student}/{id_question}')
+async def receive(id_student, result_student, id_question):
+    check_ans_and_update_row(id_student, result_student, id_question)
+    return {'id_student': id_student, 'result_student': result_student, 'id_question': id_question}
 
 
 templates = Jinja2Templates(directory="templates")
